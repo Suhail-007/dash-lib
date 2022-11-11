@@ -1,60 +1,113 @@
 /**
  *@param {type} name description
  */
- const pullValues = function(arr, valuesArr, options) {
+const pullValues = function(arr, valuesArr, options = {}) {
 
-  valuesArr = valuesArr.sort();
+  const defaultOptions = {
+    caseSensitive: true,
+    newArr: true,
+    sort: true,
+  }
+
+  options = { ...defaultOptions, ...options };
 
   let pulledArr = [];
 
-  if (options.caseSensitive === undefined) options.caseSensitive = true;
-  if (options.newArr === undefined) options.newArr = true;
-  if (options === undefined) {
-    options = {
-      caseSensitive: true,
-      newArr: true,
-    }
+  arr = options.caseSensitive ? _isCaseSensitive(arr) : _isCaseSensitive(arr, options.caseSensitive);
+  valuesArr = options.caseSensitive ? _isCaseSensitive(valuesArr) : _isCaseSensitive(valuesArr, options.caseSensitive);
+
+  arr = options.sort ? _isSorted(arr) : _isSorted(arr, options.sort);
+  valuesArr = options.sort ? _isSorted(valuesArr) : _isSorted(valuesArr, options.sort);
+
+  //1) true true true
+  //default result
+  if (options.newArr && options.caseSensitive && options.sort) {
+    return _createNewArr(arr, valuesArr, pulledArr);
   }
 
-  //true true
-  if (options.newArr && options.caseSensitive) {
-    arr.forEach(value => valuesArr.includes(value) ? pulledArr.push(value) : value);
-
-    const newArr = arr.filter(value => !pulledArr.includes(value));
-    return { newArr, pulledArr }
+  //2) false true true
+  if (!options.newArr && options.caseSensitive && options.sort) {
+    return _createNewArr(arr, valuesArr, pulledArr, options.newArr);
   }
 
-  //false true
-  if (!options.newArr && options.caseSensitive) {
+  //3) true false false
+  if (options.newArr && !options.caseSensitive && !options.sort) {
+    return _createNewArr(arr, valuesArr, pulledArr);
+  }
+
+  //4) true false true
+  if (options.newArr && !options.caseSensitive && options.sort) {
+    return _createNewArr(arr, valuesArr, pulledArr);
+  }
+
+  //5) false true false
+  if (!options.newArr && options.caseSensitive && !options.sort) {
     arr.forEach(value => valuesArr.includes(value) ? pulledArr.push(value) : value);
     return { pulledArr }
   }
 
-  //true false
-  if (options.newArr && !options.caseSensitive) {
-    arr = arr.map(value => value.toLowerCase());
+  //6) true true false
+  if (options.newArr && options.caseSensitive && !options.sort) {
+    return _createNewArr(arr, valuesArr, pulledArr);
+  }
 
+  //7) false false true
+  if (!options.newArr && !options.caseSensitive && options.sort) {
+    return _createNewArr(arr, valuesArr, pulledArr, options.newArr);
+  }
+
+  //8) false false false
+  if (!options.newArr && !options.caseSensitive && !options.sort) {
+    return _createNewArr(arr, valuesArr, pulledArr, options.newArr);
+  }
+}
+
+
+const _isCaseSensitive = function(arr, caseValue = true) {
+
+  if (caseValue) {
+    arr = arr.map(value => value);
+    return arr
+  }
+
+  if (!caseValue) {
+    arr = arr.map(value => value.toLowerCase());
+    return arr;
+  }
+}
+
+//isSorted
+const _isSorted = function(arr, sort = true) {
+  if (sort) {
+    arr = arr.sort();
+    return arr
+  }
+
+  if (!sort) {
+    arr = arr;
+    return arr;
+  }
+}
+
+const _createNewArr = function(arr, valuesArr, pulledArr, newArrValue = true) {
+  if (newArrValue) {
     arr.forEach(value => valuesArr.includes(value) ? pulledArr.push(value) : value);
 
     const newArr = arr.filter(value => !pulledArr.includes(value));
     return { newArr, pulledArr }
   }
-
-  //false false
-  if (!options.newArr && !options.caseSensitive) {
-    arr = arr.map(value => value.toLowerCase());
+  if (!newArrValue) {
     arr.forEach(value => valuesArr.includes(value) ? pulledArr.push(value) : value);
+
     return { pulledArr }
   }
 }
 
-const { pulledArr, newArr } = pullValues(['A', 'b', 'C', 'd'], ['a', 'c'], {
+const { pulledArr, newArr } = pullValues(['d', 'b', 'C', 'a'], ['C', 'a'], {
   newArr: true,
-  caseSensitive: false,
+  caseSensitive: true,
+  sort: true,
 });
 
 console.log(pulledArr);
 console.log(newArr);
-
-
-//have to create a function which takes two parameters to check if caseSensitive or newArr is true/false
