@@ -1,7 +1,7 @@
 /**
  *@param {type} name description
  */
-const pullValues = function(arr, valuesArr, options = {}) {
+export const pullValues = function(arr, valuesArr, options = {}) {
 
   const defaultOptions = {
     caseSensitive: true,
@@ -102,12 +102,3 @@ const _createNewArr = function(arr, valuesArr, pulledArr, newArrValue = true) {
     return { pulledArr }
   }
 }
-
-const { pulledArr, newArr } = pullValues(['d', 'b', 'C', 'a'], ['C', 'a'], {
-  newArr: true,
-  caseSensitive: true,
-  sort: true,
-});
-
-console.log(pulledArr);
-console.log(newArr);
