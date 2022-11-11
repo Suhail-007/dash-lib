@@ -21,47 +21,29 @@ export const pullValues = function(arr, valuesArr, options = {}) {
 
   //1) true true true
   //default result
-  if (options.newArr && options.caseSensitive && options.sort) {
-    return _createNewArr(arr, valuesArr, pulledArr);
-  }
+  if (options.newArr && options.caseSensitive && options.sort) return _createNewArr(arr, valuesArr, pulledArr);
 
   //2) false true true
-  if (!options.newArr && options.caseSensitive && options.sort) {
-    return _createNewArr(arr, valuesArr, pulledArr, options.newArr);
-  }
+  if (!options.newArr && options.caseSensitive && options.sort) return _createNewArr(arr, valuesArr, pulledArr, options.newArr);
 
   //3) true false false
-  if (options.newArr && !options.caseSensitive && !options.sort) {
-    return _createNewArr(arr, valuesArr, pulledArr);
-  }
+  if (options.newArr && !options.caseSensitive && !options.sort) return _createNewArr(arr, valuesArr, pulledArr);
 
   //4) true false true
-  if (options.newArr && !options.caseSensitive && options.sort) {
-    return _createNewArr(arr, valuesArr, pulledArr);
-  }
+  if (options.newArr && !options.caseSensitive && options.sort) return _createNewArr(arr, valuesArr, pulledArr);
 
   //5) false true false
-  if (!options.newArr && options.caseSensitive && !options.sort) {
-    arr.forEach(value => valuesArr.includes(value) ? pulledArr.push(value) : value);
-    return { pulledArr }
-  }
+  if (!options.newArr && options.caseSensitive && !options.sort) return _createNewArr(arr, valuesArr, pulledArr, options.newArr);
 
   //6) true true false
-  if (options.newArr && options.caseSensitive && !options.sort) {
-    return _createNewArr(arr, valuesArr, pulledArr);
-  }
+  if (options.newArr && options.caseSensitive && !options.sort) return _createNewArr(arr, valuesArr, pulledArr);
 
   //7) false false true
-  if (!options.newArr && !options.caseSensitive && options.sort) {
-    return _createNewArr(arr, valuesArr, pulledArr, options.newArr);
-  }
+  if (!options.newArr && !options.caseSensitive && options.sort) return _createNewArr(arr, valuesArr, pulledArr, options.newArr);
 
   //8) false false false
-  if (!options.newArr && !options.caseSensitive && !options.sort) {
-    return _createNewArr(arr, valuesArr, pulledArr, options.newArr);
-  }
+  if (!options.newArr && !options.caseSensitive && !options.sort) return _createNewArr(arr, valuesArr, pulledArr, options.newArr);
 }
-
 
 const _isCaseSensitive = function(arr, caseValue = true) {
 
