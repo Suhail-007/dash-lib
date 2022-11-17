@@ -1,5 +1,9 @@
 /**
- *@param {type} name description
+ * Returns a newArr if newArr set to true else returns a pulledArr
+ *@param {array[]} arr - An array of numbers/string/both
+ *@param {[]} valuesArr - An array of numbers/string/both
+ * @param {{}} options - list of options, in case of undefined default values will be used
+ *
  */
 export const pullValues = function(arr, valuesArr, options = {}) {
 
@@ -84,3 +88,5 @@ const _createNewArr = function(arr, valuesArr, pulledArr, newArrValue = true) {
     return { pulledArr }
   }
 }
+
+pullValues()
