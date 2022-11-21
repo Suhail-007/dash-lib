@@ -1,32 +1,56 @@
 const convert = function(num) {
   num = num.toString();
-  const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
-  const tenth = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
 
-
-  return getConverted(num, ones, tenth);
+  return getConverted(num);
 }
 
-const getConverted = function(num, onesArr, tenthArr) {
+const getConverted = function(num) {
+  const strLength = num.length;
   //for lakh
-  if (num.length <= 7) {
+  if (strLength <= 7) {
     const numArr = ('0000000' + num).slice(-7).match(/^(\d{2})(\d{2})(\d{3})$/);
-
-    return lakh(numArr, onesArr, tenthArr);
+    return lakh(numArr);
   }
 }
 
-const lakh = function(numArr, onesArr, tenthArr) {
+const lakh = function(numArr) {
   let sentence;
-  sentence = numArr[1] != 0 ? (onesArr[Number(numArr[1])] || `${tenthArr[numArr[1][0]]} ${onesArr[numArr[1][1]]} `) + ' lakh': '';
+  sentence = string(numArr, 1, 0, 1, 'lakh');
+  sentence += string(numArr, 2, 0, 1, 'thousand');
+  sentence += string(numArr, 3, 0, 0, 'hundred');
+  sentence += string(numArr, 3, 1, 1, '');
 
-  sentence += numArr[2] != 0 ? (onesArr[Number(numArr[2])] || ` ${tenthArr[numArr[2][0]]} ${onesArr[numArr[2][1]]} thousand `) : '';
-
-  sentence += numArr[3] != 0 ? (onesArr[Number(numArr[3])] || `${onesArr[numArr[3][0]]} hundred `) : '';
-
-  sentence += numArr[3] != 0 ? (onesArr[Number(numArr[3])] || `${tenthArr[numArr[3][1]]} ${onesArr[numArr[3][2]]}`) : '';
-
-  return sentence
+  return sentence.trim()
 }
 
-console.log(convert(24));
+const string = function(numArr, indexOne, indexTwo, indexThird, value = '') {
+  const ones = onesArr();
+  const tenth = tenthArr();
+  // console.log(numArr);
+
+  if (Number(numArr[indexOne])) {
+    //check if the first value of the string is 0 or not if not get the both tenth and ones from respective arrays
+
+    if (value !== 'hundred') return (ones[Number(numArr[indexOne])] || `${tenth[numArr[indexOne][indexTwo]]} ${ones[numArr[indexOne][indexThird]]}`) + ` ${value} `;
+
+    if (value === 'hundred') {
+      const isZero = ones[numArr[indexOne][indexTwo]];
+      
+      if (!isZero) {
+        return (ones[Number(numArr[indexOne])] || `${ones[numArr[indexOne][indexTwo]]}`);
+      }
+
+      if (isZero) return (ones[Number(numArr[indexOne])] || `${ones[numArr[indexOne][indexTwo]]}`) + ` ${value} `;
+    }
+  } else return '';
+}
+
+function onesArr() {
+  return ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+}
+
+function tenthArr() {
+  return ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+}
+
+console.log(convert(12));
