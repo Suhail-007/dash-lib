@@ -1,3 +1,8 @@
+/**
+ * takes number value and returns a string converted into words 
+ * @param {number} num - takes a number
+ */
+
 export const convert = function(num) {
   num = num.toString();
 
