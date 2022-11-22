@@ -3,9 +3,11 @@
  * @param {(string||number)} value - takes a number || string
  */
 
-const convert = function(value) {
+export const convert = function(value) {
   value = value.toString();
-  return getConvertedValue(value);
+  let sentence = getConvertedValue(value);
+  sentence = sentence.slice(0, 1).toUpperCase() + sentence.slice(1)
+  return sentence
 }
 
 const getConvertedValue = function(value) {
