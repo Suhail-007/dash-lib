@@ -1,5 +1,6 @@
 /**
  * takes number || string value and returns a string converted into words 
+ * @param {(string||number)} value - takes a number || string
  */
 
 const convert = function(value) {
