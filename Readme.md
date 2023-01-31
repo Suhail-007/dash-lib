@@ -7,7 +7,7 @@ Objects => that include functions related to Objects.<br>
 Numbers => that include functions related to Numbers.<br>
 
 <h2>Arrays</h2> <br>
-<p><strong>Pull Values<strong></p> <br>
+<p><strong>Pull Values</strong></p> <br>
 <p>Pull specified values from an array.</p>
 
 pullValues(arr, pullValues, options:optional)
