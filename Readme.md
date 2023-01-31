@@ -8,9 +8,9 @@ Numbers => that include functions related to Numbers.<br>
 
 <h2>Arrays</h2> <br>
 <p><strong>Pull Values</strong></p> <br>
-<p>Pull specified values from an array.</p>
+<p>Pull specified values from an array.<br>
 
-pullValues(arr, pullValues, options:optional)
+pullValues(arr, pullValues, options:optional)</p>
 
 arr: you want to pull values from.
 pullValues: values you want to pull.
