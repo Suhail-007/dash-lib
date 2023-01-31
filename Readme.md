@@ -1,14 +1,14 @@
-#Dash-lib(Dash-library)
+Dash-lib(Dash-library)
 
 This is my library just a collection of some useful functions, currently it only have three functions.
 
-Arrays => that include functions related to arrays
-Objects => that include functions related to Objects
-Numbers => that include functions related to Numbers
+Arrays => that include functions related to arrays.<br>
+Objects => that include functions related to Objects.<br>
+Numbers => that include functions related to Numbers.<br>
 
 <h2>Arrays</h2> <br>
 <h3>Pull Values</h3> <br>
-Pull specified values from an array.
+<p>Pull specified values from an array.</p>
 
 pullValues(arr, pullValues, options:optional)
 
