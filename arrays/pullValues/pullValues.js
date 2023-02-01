@@ -17,12 +17,12 @@ export const pullValues = function(arr, pullValues, options = {}) {
   let pulledArr = [];
 
   //if arr is case sensitive it returns as values are passed as arguements and if set to false it returns values in lowercase
-  arr = options.caseSensitive ? _isCaseSensitive(arr) : _isCaseSensitive(arr, options.caseSensitive);
-  pullValues = options.caseSensitive ? _isCaseSensitive(pullValues) : _isCaseSensitive(pullValues, options.caseSensitive);
+  arr = options.caseSensitive ? arr : _isCaseSensitive(arr, options.caseSensitive);
+  pullValues = options.caseSensitive ? pullValues : _isCaseSensitive(pullValues, options.caseSensitive);
 
   //array will be sort if set to true else not
-  arr = options.sort ? _isSorted(arr) : _isSorted(arr, options.sort);
-  pullValues = options.sort ? _isSorted(pullValues) : _isSorted(pullValues, options.sort);
+  arr = options.sort ? arr : _isSorted(arr, options.sort);
+  pullValues = options.sort ? pullValues : _isSorted(pullValues, options.sort);
 
   //1) true true true
   //default result
@@ -50,10 +50,10 @@ export const pullValues = function(arr, pullValues, options = {}) {
   if (!options.newArr && !options.caseSensitive && !options.sort) return _createNewArr(arr, pullValues, pulledArr, options.newArr);
 }
 
-const _isCaseSensitive = (arr, caseValue = true) => caseValue ? arr : arr.map(value => value.toLowerCase());
+const _isCaseSensitive = (arr, caseValue) => caseValue && arr.map(value => value.toLowerCase());
 
 //isSorted
-const _isSorted = (arr, sort = true) => sort ? arr.sort() : arr;
+const _isSorted = (arr, sort) => sort && arr.sort();
 
 const _createNewArr = function(arr, pullValues, pulledArr, newArrValue = true) {
   if (newArrValue) {
