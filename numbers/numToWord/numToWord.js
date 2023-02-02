@@ -1,6 +1,6 @@
 /**
- * takes number || string value and returns a string converted into words 
- * @param {(string||number)} value - takes a number || string
+ * takes number || string value and returns a string converted into words(up to lakh)
+ * @param {string||umber} value - takes a number || string
  */
 
 export const convert = function(value) {
@@ -17,40 +17,21 @@ const getConvertedValue = function(value) {
     const numArr = ('0000000' + value).slice(-7).match(/^(\d{2})(\d{2})(\d{3})$/);
     return upToLakh(numArr);
   }
+  throw Error('Currently it supports coverting numbers to word up to lakh')
 }
 
 const upToLakh = function(numArr) {
-  let sentence;
-  sentence = string(numArr, 1, 0, 1, 'lakh');
-  sentence += string(numArr, 2, 0, 1, 'thousand');
-  sentence += string(numArr, 3, 0, 0, 'hundred');
-  sentence += string(numArr, 3, 1, 2, '');
+  const sentence = [];
+  sentence.push(string(numArr, 1, 0, 1, 'lakh'));
+  sentence.push(string(numArr, 2, 0, 1, 'thousand'));
+  sentence.push(string(numArr, 3, 0, 0, 'hundred'));
+  sentence.push(string(numArr, 3, 1, 2, 'rupees'));
 
-  return sentence.trim()
+  return sentence.join(' ').trim();
 }
 
 const string = function(numArr, indexOne, indexTwo, indexThird, value = '') {
-  const onesObj = ones();
-  const tenthObj = tenth();
-  
-  if (Number(numArr[indexOne])) {
-    //check if the first value of the string is 0 or not if not get the both tenth and ones from respective arrays
-
-    if (value !== 'hundred') return (onesObj[Number(numArr[indexOne])] || `${tenthObj[numArr[indexOne][indexTwo]]} ${onesObj[numArr[indexOne][indexThird]]}`) + ` ${value} `;
-
-    if (value === 'hundred') {
-      const isZero = onesObj[numArr[indexOne][indexTwo]];
-
-      //[023] if first digit is placed on hundred(0) then remove value variable from sentence
-      if (!isZero) return onesObj[numArr[indexOne][indexTwo]];
-
-      if (isZero) return (onesObj[Number(numArr[indexOne])] || `${onesObj[numArr[indexOne][indexTwo]]}`) + ` ${value} `;
-    }
-  } else return '';
-}
-
-function ones() {
-  return {
+  const onesObj = {
     0: '',
     1: 'one',
     2: 'two',
@@ -71,12 +52,10 @@ function ones() {
     17: 'seventeen',
     18: 'eighteen',
     19: 'nineteenn',
-
-  }
-}
-
-function tenth() {
-  return {
+  };
+  const tenthObj = {
+    0: '',
+    1: '',
     2: 'twenty',
     3: 'thirty',
     4: 'forty',
@@ -86,4 +65,20 @@ function tenth() {
     8: 'eighty',
     9: 'ninety',
   };
+
+  if (Number(numArr[indexOne])) {
+    //check if the first value of the string is 0 or not if not get the both tenth and ones from respective arrays
+
+    if (value !== 'hundred') return (onesObj[Number(numArr[indexOne])] || `${tenthObj[numArr[indexOne][indexTwo]]} ${onesObj[numArr[indexOne][indexThird]]}`) + ` ${value}`;
+
+    if (value === 'hundred') {
+      //[023] if first digit is placed on hundred(0) then remove value variable from sentence
+      const isZero = onesObj[numArr[indexOne][indexTwo]];
+
+      if (!isZero) return onesObj[numArr[indexOne][indexTwo]];
+
+      return (onesObj[Number(numArr[indexOne])] || `${onesObj[numArr[indexOne][indexTwo]]} `) + value;
+    }
+  }
+  return;
 }

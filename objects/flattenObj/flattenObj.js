@@ -14,5 +14,3 @@ export function flattenObjs(obj) {
   }
   return newObj
 }
-
-flattenObjs(deepNestedObj);
